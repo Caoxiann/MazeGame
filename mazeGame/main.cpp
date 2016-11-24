@@ -33,7 +33,8 @@ void drawMaze();
 void drawPath();
 int main(int, char const**)
 {
-    maze=new(Maze);
+    maze=new Maze();
+//    maze->autoMakeMaze();
     // Create the main window
     window.create(sf::VideoMode(1024,768),L"MAZE");
     
@@ -50,7 +51,7 @@ int main(int, char const**)
         return EXIT_FAILURE;
     }
     player.setTexture(playerTexture);
-    Position *pos=maze->getPos();
+    Position *pos=maze->getPosition();
     player.setPosition(60*pos->x, 60*pos->y);
     
     sf::Texture bg;
@@ -75,7 +76,7 @@ int main(int, char const**)
     music.play();
 
 
-    maze->autoFindPath();
+//    maze->autoFindPath();
     // Start the game loop
     while (window.isOpen())
     {
@@ -140,7 +141,7 @@ void drawMaze(){
 
 void drawPath(){
     for (int i=1; i<100; i++) {
-        Path *findPath=maze->array[i];
+        Position *findPath=maze->array[i];
         if (findPath) {
             sf::Sprite path(pathTexture);
             path.setPosition(findPath->x*60, findPath->y*60);

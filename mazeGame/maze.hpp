@@ -14,26 +14,37 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-typedef struct Position{
+typedef class Position{
+public:
     int x;
     int y;
-}Path;
+}Position;
+
+typedef struct MazeTree{
+//    Position *position;
+    MazeTree *lchild;
+    MazeTree *rchild;
+    MazeTree *uchild;
+    MazeTree *dchild;
+    MazeTree *root;
+    int x;
+    int y;
+}MazeTree;
 
 class Maze{
 public:
     Maze();
     void autoFindPath();
-    Position *getPos();
     int run(char direction);
     char map[HEIGHT][WIDTH];
     Position *array[WIDTH*HEIGHT];
+    Position *getPosition();
+    void autoMakeMaze();
 private:
-    Position *pos;
-    
     int arrived[HEIGHT][WIDTH];
     int flag=0;
-    
     int x,y,finished;
+    Position *position;
     
     void getMap();
     void printWall();
@@ -41,11 +52,23 @@ private:
     int ifHitTheWall(char nextStep);
     int ifFinishTheMaze();
     void go();
+    
     Position* pop();
     void push(int x,int y);
     int isArrived(int x,int y);
     void drawPath();
-
+    void clearMap();
+    
+    int blocked=1;
+    MazeTree *trees[HEIGHT*WIDTH];
+    Position *getRandomNextPos(Position *currentPos);
+    int ifNeedToBreak(MazeTree *nextTree);
+    void searchTree(MazeTree *tree);
+    int isInTheTree(MazeTree *subTree);
+    void isBlock();
+    
 };
+
+
 
 #endif /* maze_hpp */
